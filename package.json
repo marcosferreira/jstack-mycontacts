@@ -1,0 +1,13 @@
+{
+  "name": "mycontacts",
+  "version": "1.0.0",
+  "description": "API to store contacts",
+  "main": "src/index.js",
+  "repository": "https://github.com/marcosferreira/jstack-mycontacts",
+  "author": "Marcos Ferreira",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
