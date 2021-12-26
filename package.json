@@ -7,7 +7,13 @@
   "author": "Marcos Ferreira",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "dev": "nodemon ."
+  },
   "dependencies": {
     "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
