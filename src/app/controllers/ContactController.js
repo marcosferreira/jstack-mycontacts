@@ -30,7 +30,8 @@ class ContactController {
 
   async delete(request, response) {
     // apagar um registro
-    if (await !ContactRepository.findById(request.params.id)) {
+    const contact = await ContactRepository.findById(request.params.id);
+    if (!contact) {
       return response.status(404).json({ error: 'Contact not found' });
     }
 
