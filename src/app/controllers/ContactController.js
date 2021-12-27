@@ -4,6 +4,7 @@ class ContactController {
   async index(request, response) {
     // listar registros
     const contacts = await ContactRepository.findAll();
+
     return response.json(contacts);
   }
 
@@ -23,6 +24,10 @@ class ContactController {
     const {
       name, email, phone, categoryId,
     } = request.body;
+
+    if (!name) {
+      return response.status(400).json({ error: 'required \'name\' field' });
+    }
 
     const contactExist = await ContactRepository.findByEmail(email);
 
