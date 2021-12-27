@@ -18,9 +18,23 @@ class ContactController {
     return response.json(contact);
   }
 
-  store(request, response) {
+  async store(request, response) {
     // criar um registro
-    response.send('Send from contact controller');
+    const {
+      name, email, phone, categoryId,
+    } = request.body;
+
+    const contactExist = await ContactRepository.findByEmail(email);
+
+    if (contactExist) {
+      return response.status(400).json({ error: 'This e-mail is already been taken' });
+    }
+
+    const contact = await ContactRepository.create({
+      name, email, phone, categoryId,
+    });
+
+    return response.json(contact);
   }
 
   update(request, response) {
@@ -30,12 +44,15 @@ class ContactController {
 
   async delete(request, response) {
     // apagar um registro
-    const contact = await ContactRepository.findById(request.params.id);
+    const { id } = request.params;
+
+    const contact = await ContactRepository.findById(id);
+
     if (!contact) {
       return response.status(404).json({ error: 'Contact not found' });
     }
 
-    await ContactRepository.findByIdAndDelete(request.params.id);
+    await ContactRepository.delete(id);
 
     return response.sendStatus(204);
   }

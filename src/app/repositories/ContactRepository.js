@@ -6,14 +6,14 @@ let contacts = [
     name: 'Marcos',
     email: 'marcosferreira@github.com',
     phone: '84987684392',
-    category_id: uuidv4(),
+    categoryId: uuidv4(),
   },
   {
     id: uuidv4(),
     name: 'Jose',
     email: 'jose@github.com',
     phone: '84987684983 ',
-    category_id: uuidv4(),
+    categoryId: uuidv4(),
   },
 ];
 
@@ -30,7 +30,29 @@ class ContactRepository {
     });
   }
 
-  findByIdAndDelete(id) {
+  findByEmail(email) {
+    return new Promise((resolve) => {
+      resolve(
+        contacts.find((contact) => contact.email === email),
+      );
+    });
+  }
+
+  create(contact) {
+    const {
+      name, email, phone, categoryId,
+    } = contact;
+
+    return new Promise((resolve) => {
+      const newContact = {
+        id: uuidv4(), name, email, phone, categoryId,
+      };
+      contacts.push(newContact);
+      resolve(newContact);
+    });
+  }
+
+  delete(id) {
     return new Promise((resolve) => {
       contacts = contacts.filter((contact) => contact.id !== id);
       resolve();
