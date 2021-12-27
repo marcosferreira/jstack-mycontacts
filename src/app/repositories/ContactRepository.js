@@ -47,14 +47,35 @@ class ContactRepository {
       const newContact = {
         id: uuidv4(), name, email, phone, categoryId,
       };
+
       contacts.push(newContact);
+
       resolve(newContact);
+    });
+  }
+
+  update(id, contact) {
+    const {
+      name, email, phone, categoryId,
+    } = contact;
+
+    return new Promise((resolve) => {
+      const updatedContact = {
+        id, name, email, phone, categoryId,
+      };
+
+      contacts = contacts.map((contactItem) => (
+        contactItem.id === id ? updatedContact : contactItem
+      ));
+
+      resolve(updatedContact);
     });
   }
 
   delete(id) {
     return new Promise((resolve) => {
       contacts = contacts.filter((contact) => contact.id !== id);
+
       resolve();
     });
   }
