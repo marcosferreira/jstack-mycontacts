@@ -22,7 +22,7 @@ class ContactController {
   async store(request, response) {
     // criar um registro
     const {
-      name, email, phone, categoryId,
+      name, email, phone, category_id,
     } = request.body;
 
     if (!name) {
@@ -36,7 +36,7 @@ class ContactController {
     }
 
     const contact = await ContactRepository.create({
-      name, email, phone, categoryId,
+      name, email, phone, category_id,
     });
 
     return response.json(contact);
@@ -46,7 +46,7 @@ class ContactController {
     // atualizar um registro
     const { id } = request.params;
     const {
-      name, email, phone, categoryId,
+      name, email, phone, category_id,
     } = request.body;
 
     const contactExist = await ContactRepository.findById(id);
@@ -65,7 +65,7 @@ class ContactController {
     }
 
     const contact = await ContactRepository.update(id, {
-      name, email, phone, categoryId,
+      name, email, phone, category_id,
     });
 
     return response.status(200).json(contact);
