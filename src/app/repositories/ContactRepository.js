@@ -50,23 +50,20 @@ class ContactRepository {
     return row;
   }
 
-  update(id, contact) {
+  async update(id, contact) {
     const {
       // eslint-disable-next-line no-unused-vars
       name, email, phone, category_id,
     } = contact;
 
-    return new Promise((resolve) => {
-      const updatedContact = {
-        id, name, email, phone, category_id,
-      };
+    const [row] = await db.query(`
+      UPDATE contacts
+      SET name = $1, email = $2, phone = $3, category_id = $4
+      WHERE id = $5
+      RETURNING *
+    `, [name, email, phone, category_id, id]);
 
-      contacts = contacts.map((contactItem) => (
-        contactItem.id === id ? updatedContact : contactItem
-      ));
-
-      resolve(updatedContact);
-    });
+    return row;
   }
 
   delete(id) {
