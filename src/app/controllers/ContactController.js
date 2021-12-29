@@ -1,17 +1,17 @@
-const ContactRepository = require('../repositories/ContactRepository');
+const ContactsRepository = require('../repositories/ContactsRepository');
 
 class ContactController {
   async index(request, response) {
     // listar registros
     const { orderBy } = request.query;
-    const contacts = await ContactRepository.findAll(orderBy);
+    const contacts = await ContactsRepository.findAll(orderBy);
 
     return response.json(contacts);
   }
 
   async show(request, response) {
     // obter um registro
-    const contact = await ContactRepository.findById(request.params.id);
+    const contact = await ContactsRepository.findById(request.params.id);
 
     if (!contact) {
       return response.status(404).json({ error: 'Contact Not found' });
@@ -30,13 +30,13 @@ class ContactController {
       return response.status(400).json({ error: 'required \'name\' field' });
     }
 
-    const contactExist = await ContactRepository.findByEmail(email);
+    const contactExist = await ContactsRepository.findByEmail(email);
 
     if (contactExist) {
       return response.status(400).json({ error: 'This e-mail is already in use' });
     }
 
-    const contact = await ContactRepository.create({
+    const contact = await ContactsRepository.create({
       name, email, phone, category_id,
     });
 
@@ -50,7 +50,7 @@ class ContactController {
       name, email, phone, category_id,
     } = request.body;
 
-    const contactExist = await ContactRepository.findById(id);
+    const contactExist = await ContactsRepository.findById(id);
 
     if (!contactExist) {
       return response.status(400).json({ error: 'Contact not found' });
@@ -60,12 +60,12 @@ class ContactController {
       return response.status(400).json({ error: 'Required \'name\' field' });
     }
 
-    const contactByEmail = await ContactRepository.findByEmail(email);
+    const contactByEmail = await ContactsRepository.findByEmail(email);
     if (contactByEmail && contactByEmail.id !== id) {
       return response.status(400).json({ error: 'This e-mail is already in use' });
     }
 
-    const contact = await ContactRepository.update(id, {
+    const contact = await ContactsRepository.update(id, {
       name, email, phone, category_id,
     });
 
@@ -76,7 +76,7 @@ class ContactController {
     // apagar um registro
     const { id } = request.params;
 
-    await ContactRepository.delete(id);
+    await ContactsRepository.delete(id);
 
     return response.sendStatus(204);
   }
